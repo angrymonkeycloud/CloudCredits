@@ -1,0 +1,23 @@
+{
+    "name": "cloudcredit",
+    "version": "1.0.0",
+    "description": "JavaScript library for displaying copyright, design and development, libraries, and hosting credit.",
+    "main": "./dist/cloudcredit.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Angry Monkey",
+    "license": "ISC",
+    "dependencies": {},
+    "devDependencies": {
+        "gulp": "^4.0.0",
+        "gulp-clean-css": "^4.2.0",
+        "gulp-less": "^4.0.1",
+        "gulp-minify": "^3.1.0",
+        "gulp-rename": "^1.4.0",
+        "gulp-sourcemaps": "^2.6.5",
+        "gulp-typescript": "^5.0.1",
+        "jquery": "^3.4.1",
+        "typescript": "^3.5.3"
+    }
+}

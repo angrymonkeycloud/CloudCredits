@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cloud Credit Test Page</title>
+
+    <script src="http://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="../dist/cloudCredits.js"></script>
+
+    <link href="../dist/cloudcredits.css" rel="stylesheet" />
+
+    <script>
+        CloudCredits.Init('Angry Monkey, LLC', '#CreditsLegent');
+
+        // Agency
+
+        let agencyBusiness = new Business('Angry Monkey Agency');
+        agencyBusiness.WebsiteUrl = 'https://www.angrymonkeyagency.com/';
+        agencyBusiness.LogoUrl = 'https://www.angrymonkeyagency.com/favicon.ico';
+
+        // Designed and Developed
+
+        let developedAndDesigned = new InvolvedBusiness();
+        developedAndDesigned.Involvement = "Designed and Developed";
+        developedAndDesigned.DisplayInSummary = true;
+        developedAndDesigned.Business = agencyBusiness;
+        CloudCredits.InvolvedBusinesses.push(developedAndDesigned);
+
+        // Credits
+
+        let credits = new Tool('Cloud Credits', 'https://www.angrymonkeycloud.com/credits');
+        credits.LogoUrl = 'https://www.angrymonkeycloud.com/favicon.ico';
+        credits.Developer = new Business('Angry Monkey Cloud');
+        CloudCredits.Libraries.push(credits);
+
+        // Translation
+
+        let translation = new Tool('Cloud Translation', 'https://www.angrymonkeycloud.com/translation');
+        translation.LogoUrl = 'https://www.angrymonkeycloud.com/favicon.ico';
+        translation.Developer = new Business('Angry Monkey Cloud');
+        CloudCredits.Libraries.push(translation);
+
+        // jQuery
+
+        let jQuery = new Tool('jQuery', 'https://jquery.com/');
+        jQuery.LogoUrl = 'https://jquery.com/favicon.ico';
+        jQuery.Developer = new Business('The jQuery Foundation');
+        CloudCredits.Libraries.push(jQuery);
+
+        // Bootstrap
+
+        let bootstrap = new Tool('Bootstrap', 'https://getbootstrap.com/');
+        bootstrap.LogoUrl = 'https://getbootstrap.com/docs/4.3/assets/img/favicons/favicon-32x32.png';
+        bootstrap.Developer = new Business('Bootstrap team');
+        CloudCredits.Libraries.push(bootstrap);
+
+        // Hosting
+
+        CloudCredits.Hosting = new Tool();
+        CloudCredits.Hosting.Management = agencyBusiness;
+
+        CloudCredits.Hosting.Provider = new Business();
+        CloudCredits.Hosting.Provider.Name = 'WordPress.com';
+        CloudCredits.Hosting.Provider.LogoUrl = 'https://wpcom.files.wordpress.com/2017/11/cropped-wordpress.png?w=48';
+        CloudCredits.Hosting.Provider.WebsiteUrl = 'https://wordpress.com/';
+    </script>
+
+</head>
+
+<body>
+
+
+    <!-- <div style="height: 800px;"></div> -->
+
+    <div id="CreditsLegent"></div>
+    <div id="CreditsInformation"></div>
+</body>
+
+</html>
