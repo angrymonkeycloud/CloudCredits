@@ -110,7 +110,14 @@ class CloudCredits {
     private static FillInLegend() : void {
         
         let content = $(this.LegendSelector).html('');
-        content.append(this.CreateHtmlDiv(this.CreateClassName('LegendContainer'), this.CreateHtmlSpan(this.CreateClassName('Legend'), '© ' + this.Copyright.Business.Name)));
+        
+        let legendContent : string;
+        
+        if ($(this.LegendSelector).data('legend'))
+        legendContent = $(this.LegendSelector).data('legend');
+        else legendContent = '© ' + this.Copyright.Business.Name;
+        
+        content.append(this.CreateHtmlDiv(this.CreateClassName('LegendContainer'), this.CreateHtmlSpan(this.CreateClassName('Legend'), legendContent)));
     }
     
     private static CreateCreditsContainer() : HTMLElement{
