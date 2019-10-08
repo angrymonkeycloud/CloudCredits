@@ -113,8 +113,10 @@ class CloudCredits {
         
         let legendContent : string;
         
-        if ($(this.LegendSelector).data('legend'))
-        legendContent = $(this.LegendSelector).data('legend');
+        if ($(this.LegendSelector).data('legend')){
+            legendContent = $(this.LegendSelector).data('legend');
+            $(this.LegendSelector).removeAttr('data-legend');
+        }
         else legendContent = '© ' + this.Copyright.Business.Name;
         
         content.append(this.CreateHtmlDiv(this.CreateClassName('LegendContainer'), this.CreateHtmlSpan(this.CreateClassName('Legend'), legendContent)));
