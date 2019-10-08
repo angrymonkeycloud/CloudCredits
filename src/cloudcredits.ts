@@ -58,7 +58,7 @@ class CloudCredits {
     
     static Copyright: CopyrightSection;
     static InvolvedBusinesses: InvolvedBusiness[] = [];
-    static Libraries: Tool[] = [];
+    static Tools: Tool[] = [];
     static Hosting: Hosting;
     
     static Init(businessName: string, legendSelector: string, creditsSelector?: string) {
@@ -182,12 +182,12 @@ class CloudCredits {
             container.append(this.GenerateInvolvedBusinesses());
         }
         
-        // Libraries
+        // Tools
         
-        if (this.Libraries.length > 0){
+        if (this.Tools.length > 0){
             
             container.append(this.CreateHtmlDiv(this.CreateClassName('Title'), ''));
-            container.append(this.GenerateLibraries());
+            container.append(this.GenerateTools());
         }
         
         // Hosting
@@ -228,19 +228,19 @@ class CloudCredits {
         return businessesContainer;
     }
     
-    private static GenerateLibraries(): HTMLElement{
+    private static GenerateTools(): HTMLElement{
         
-        let businessesContainer = this.CreateHtmlDiv(this.CreateClassName('Credits', 'Libraries'));
+        let businessesContainer = this.CreateHtmlDiv(this.CreateClassName('Credits', 'Tools'));
         
-        this.Libraries.forEach((library) =>{
-            let businessDiv = this.CreateHtmlDiv(this.CreateClassName('LibraryInfo'));
+        this.Tools.forEach((tool) =>{
+            let businessDiv = this.CreateHtmlDiv(this.CreateClassName('ToolInfo'));
             
-            if (library.LogoUrl !== undefined)
-            businessDiv.append(this.CreateHtmlDiv(undefined, this.CreateHtmlImage(undefined, library.LogoUrl)));
+            if (tool.LogoUrl !== undefined)
+            businessDiv.append(this.CreateHtmlDiv(undefined, this.CreateHtmlImageLink(undefined, tool.LogoUrl, tool.LinkUrl)));
             
-            businessDiv.append(this.CreateHtmlAnchor(undefined, library.LinkUrl, library.Name));
+            businessDiv.append(this.CreateHtmlAnchor(undefined, tool.LinkUrl, tool.Name));
             
-            businessDiv.append(this.CreateHtmlParagraph(undefined, library.Developer.Name));
+            businessDiv.append(this.CreateHtmlParagraph(undefined, tool.Developer.Name));
             
             businessesContainer.append(businessDiv);
         });
@@ -263,7 +263,7 @@ class CloudCredits {
         let businessDiv = this.CreateHtmlDiv(this.CreateClassName('BusinessInfo'));
         
         if (business.LogoUrl !== undefined)
-        businessDiv.append(this.CreateHtmlDiv(undefined, this.CreateHtmlImage(undefined, business.LogoUrl)));
+        businessDiv.append(this.CreateHtmlDiv(undefined, this.CreateHtmlImageLink(undefined, business.LogoUrl, business.WebsiteUrl)));
         
         if (innerDescription !== undefined)
         businessDiv.append(this.CreateHtmlParagraph(undefined,  '\xa0' + innerDescription + '\xa0'));
@@ -348,6 +348,14 @@ class CloudCredits {
         imageElement.className = className;
         
         return imageElement;
+    }
+    
+    private static CreateHtmlImageLink(className: string, source: string, link?: string): HTMLElement{
+        
+        if (link !== undefined)
+        return this.CreateHtmlAnchor(className, link, this.CreateHtmlImage(undefined, source));
+        
+        return this.CreateHtmlImage(undefined, source);
     }
     
     // Public Methods

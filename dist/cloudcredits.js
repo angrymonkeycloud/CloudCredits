@@ -137,9 +137,9 @@ var CloudCredits = (function () {
             container.append(this.CreateHtmlDiv(this.CreateClassName('Title'), ''));
             container.append(this.GenerateInvolvedBusinesses());
         }
-        if (this.Libraries.length > 0) {
+        if (this.Tools.length > 0) {
             container.append(this.CreateHtmlDiv(this.CreateClassName('Title'), ''));
-            container.append(this.GenerateLibraries());
+            container.append(this.GenerateTools());
         }
         if (this.Hosting !== undefined) {
             container.append(this.CreateHtmlDiv(this.CreateClassName('Title'), 'Hosting'));
@@ -165,15 +165,15 @@ var CloudCredits = (function () {
         });
         return businessesContainer;
     };
-    CloudCredits.GenerateLibraries = function () {
+    CloudCredits.GenerateTools = function () {
         var _this = this;
-        var businessesContainer = this.CreateHtmlDiv(this.CreateClassName('Credits', 'Libraries'));
-        this.Libraries.forEach(function (library) {
-            var businessDiv = _this.CreateHtmlDiv(_this.CreateClassName('LibraryInfo'));
-            if (library.LogoUrl !== undefined)
-                businessDiv.append(_this.CreateHtmlDiv(undefined, _this.CreateHtmlImage(undefined, library.LogoUrl)));
-            businessDiv.append(_this.CreateHtmlAnchor(undefined, library.LinkUrl, library.Name));
-            businessDiv.append(_this.CreateHtmlParagraph(undefined, library.Developer.Name));
+        var businessesContainer = this.CreateHtmlDiv(this.CreateClassName('Credits', 'Tools'));
+        this.Tools.forEach(function (tool) {
+            var businessDiv = _this.CreateHtmlDiv(_this.CreateClassName('ToolInfo'));
+            if (tool.LogoUrl !== undefined)
+                businessDiv.append(_this.CreateHtmlDiv(undefined, _this.CreateHtmlImageLink(undefined, tool.LogoUrl, tool.LinkUrl)));
+            businessDiv.append(_this.CreateHtmlAnchor(undefined, tool.LinkUrl, tool.Name));
+            businessDiv.append(_this.CreateHtmlParagraph(undefined, tool.Developer.Name));
             businessesContainer.append(businessDiv);
         });
         return businessesContainer;
@@ -186,7 +186,7 @@ var CloudCredits = (function () {
     CloudCredits.GenerateBusinessHtml = function (business, innerDescription) {
         var businessDiv = this.CreateHtmlDiv(this.CreateClassName('BusinessInfo'));
         if (business.LogoUrl !== undefined)
-            businessDiv.append(this.CreateHtmlDiv(undefined, this.CreateHtmlImage(undefined, business.LogoUrl)));
+            businessDiv.append(this.CreateHtmlDiv(undefined, this.CreateHtmlImageLink(undefined, business.LogoUrl, business.WebsiteUrl)));
         if (innerDescription !== undefined)
             businessDiv.append(this.CreateHtmlParagraph(undefined, '\xa0' + innerDescription + '\xa0'));
         businessDiv.append(this.GenerateBusinessInfoTextHtml(business));
@@ -244,6 +244,11 @@ var CloudCredits = (function () {
             imageElement.className = className;
         return imageElement;
     };
+    CloudCredits.CreateHtmlImageLink = function (className, source, link) {
+        if (link !== undefined)
+            return this.CreateHtmlAnchor(className, link, this.CreateHtmlImage(undefined, source));
+        return this.CreateHtmlImage(undefined, source);
+    };
     CloudCredits.Display = function () {
         this.FillInLegend();
         this.FillInCreditsSummary();
@@ -272,7 +277,7 @@ var CloudCredits = (function () {
         }
     };
     CloudCredits.InvolvedBusinesses = [];
-    CloudCredits.Libraries = [];
+    CloudCredits.Tools = [];
     CloudCredits.BaseClassName = 'CloudCredits';
     return CloudCredits;
 }());

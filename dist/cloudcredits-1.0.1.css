@@ -11,9 +11,9 @@
   padding-left: 5px;
   display: inline-block;
   position: absolute;
-  font-size: 1.5rem;
+  font-size: 1.5em;
   opacity: 0.5;
-  margin-top: -0.3rem;
+  margin-top: -0.3em;
 }
 .CloudCredits-Legend.Extended::after {
   content: '▴';
@@ -33,6 +33,7 @@
 .CloudCredits-Credits img {
   width: 48px;
   height: 48px;
+  margin-bottom: 5px;
 }
 .CloudCredits-Credits .CloudCredits-Title,
 .CloudCredits-Credits .CloudCredits-SubTitle {
@@ -54,27 +55,27 @@
   opacity: 0.5;
 }
 .CloudCredits-Credits .CloudCredits-BusinessInfo,
-.CloudCredits-Credits .CloudCredits-LibraryInfo {
+.CloudCredits-Credits .CloudCredits-ToolInfo {
   white-space: nowrap;
   padding: 20px;
   margin-top: 10px;
 }
 .CloudCredits-Credits .CloudCredits-BusinessInfo > *,
-.CloudCredits-Credits .CloudCredits-LibraryInfo > * {
+.CloudCredits-Credits .CloudCredits-ToolInfo > * {
   display: block;
   font-size: 0.9em;
 }
 .CloudCredits-Credits .CloudCredits-BusinessInfo p,
-.CloudCredits-Credits .CloudCredits-LibraryInfo p {
+.CloudCredits-Credits .CloudCredits-ToolInfo p {
   margin: 0;
 }
 .CloudCredits-Credits .CloudCredits-BusinessInfo img,
-.CloudCredits-Credits .CloudCredits-LibraryInfo img {
+.CloudCredits-Credits .CloudCredits-ToolInfo img {
   margin-left: auto;
   margin-right: auto;
 }
 .CloudCredits-Credits .CloudCredits-Credits-Involved,
-.CloudCredits-Credits .CloudCredits-Credits-Libraries,
+.CloudCredits-Credits .CloudCredits-Credits-Tools,
 .CloudCredits-Credits .CloudCredits-Credits-Hosting {
   display: flex;
   flex-wrap: wrap;
