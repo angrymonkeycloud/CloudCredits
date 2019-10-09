@@ -7,7 +7,6 @@ var less = require('gulp-less');
 var cleanCSS = require('gulp-clean-css');
 var tsProject = ts.createProject('tsconfig.json');
 
-// Please don't modify
 var version = '1.0.2';
 
 // -------------------------------------------
