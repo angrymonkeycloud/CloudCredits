@@ -9,7 +9,7 @@ Check out https://angrymonkeycloud.com/credits for contribution information.
 ## Requirements
 jQuery 2.x or 3.x: [jQuery CDN](https://code.jquery.com/), [download jQuery](https://jquery.com/download/).
 
-## Cloud Credits JavaScript
+## Cloud Credits Files
 ### Download
 Cloud Credits JavaScript files: [Uncompressed](https://cdn.amcapi.com/credits/cloudcredits-1.0.2.js), [Compressed](https://cdn.amcapi.com/credits/cloudcredits-1.0.2.min.js).
 
@@ -26,7 +26,7 @@ Cloud Credits CSS Compressed
 <link href="https://cdn.amcapi.com/credits/cloudcredits-1.0.2.min.css" rel="stylesheet" />
 ```
 
-### Sample
+## Sample
 ```js
 CloudCredits.Init('Angry Monkey, LLC', '#CreditsLegend');
 
