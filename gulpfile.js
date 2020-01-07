@@ -1,5 +1,4 @@
 var gulp = require('gulp');
-// var sourcemaps = require('gulp-sourcemaps');
 var minify = require('gulp-minify');
 var rename = require('gulp-rename');
 var ts = require('gulp-typescript');
@@ -14,6 +13,12 @@ var version = '1.0.2';
 // -------------------------------------------
 
 gulp.task('jsWithoutVersioning', function() {
+
+    // copy d.ts
+    gulp.src('src/cloudcredits.d.ts')
+        .pipe(gulp.dest('dist'));
+
+    // convert to js
     return tsProject.src()
         .pipe(tsProject())
         .js
@@ -28,6 +33,12 @@ gulp.task('jsWithoutVersioning', function() {
 
 gulp.task('jsWithVersioning', function() {
 
+    // copy d.ts
+    gulp.src('src/cloudcredits.d.ts')
+        .pipe(rename('cloudcredits-' + version + '.d.ts'))
+        .pipe(gulp.dest('dist'));
+
+    // convert to js
     return tsProject.src()
         .pipe(tsProject())
         .js

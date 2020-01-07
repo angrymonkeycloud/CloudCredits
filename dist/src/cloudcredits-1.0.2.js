@@ -48,14 +48,12 @@ var Business = (function () {
     }
     return Business;
 }());
-exports.Business = Business;
 var InvolvedBusiness = (function () {
     function InvolvedBusiness() {
         this.DisplayInSummary = false;
     }
     return InvolvedBusiness;
 }());
-exports.InvolvedBusiness = InvolvedBusiness;
 var Tool = (function () {
     function Tool(name, linkUrl) {
         this.DisplayInSummary = false;
@@ -64,14 +62,12 @@ var Tool = (function () {
     }
     return Tool;
 }());
-exports.Tool = Tool;
 var Hosting = (function () {
     function Hosting() {
         this.DisplayInSummary = false;
     }
     return Hosting;
 }());
-exports.Hosting = Hosting;
 var CloudCredits = (function () {
     function CloudCredits() {
     }
@@ -290,7 +286,6 @@ var CloudCredits = (function () {
     CloudCredits.BaseClassName = 'CloudCredits';
     return CloudCredits;
 }());
-exports.CloudCredits = CloudCredits;
 $(function () {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {

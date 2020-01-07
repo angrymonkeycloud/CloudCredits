@@ -1,10 +1,11 @@
-
+export
 class CopyrightSection {
     
     Disclaimer: string = 'All Rights Reserved.';
     Business: Business;
 }
 
+export
 class Business {
     
     constructor(name: string){
@@ -18,6 +19,7 @@ class Business {
     AddressLine2?: string;
 }
 
+export
 class InvolvedBusiness {
     
     Business: Business;
@@ -25,6 +27,7 @@ class InvolvedBusiness {
     DisplayInSummary: boolean = false;
 }
 
+export
 class Tool {
     
     constructor(name: string, linkUrl: string){
@@ -41,6 +44,7 @@ class Tool {
     DisplayInSummary: boolean = false;
 }
 
+export
 class Hosting {
     
     Provider: Business;
@@ -48,6 +52,7 @@ class Hosting {
     DisplayInSummary: boolean = false;
 }
 
+export
 class CloudCredits {
     
     // Private Variables

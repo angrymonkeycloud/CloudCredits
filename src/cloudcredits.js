@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -33,44 +34,50 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var CopyrightSection = (function () {
     function CopyrightSection() {
         this.Disclaimer = 'All Rights Reserved.';
     }
     return CopyrightSection;
 }());
-var BusinessInfo = (function () {
-    function BusinessInfo(name) {
+exports.CopyrightSection = CopyrightSection;
+var Business = (function () {
+    function Business(name) {
         this.Name = name;
     }
-    return BusinessInfo;
+    return Business;
 }());
-var InvolvedBusinessInfo = (function () {
-    function InvolvedBusinessInfo() {
+exports.Business = Business;
+var InvolvedBusiness = (function () {
+    function InvolvedBusiness() {
         this.DisplayInSummary = false;
     }
-    return InvolvedBusinessInfo;
+    return InvolvedBusiness;
 }());
-var LibraryInfo = (function () {
-    function LibraryInfo(name, linkUrl) {
+exports.InvolvedBusiness = InvolvedBusiness;
+var Tool = (function () {
+    function Tool(name, linkUrl) {
         this.DisplayInSummary = false;
         this.Name = name;
         this.LinkUrl = linkUrl;
     }
-    return LibraryInfo;
+    return Tool;
 }());
-var HostingInfo = (function () {
-    function HostingInfo() {
+exports.Tool = Tool;
+var Hosting = (function () {
+    function Hosting() {
         this.DisplayInSummary = false;
     }
-    return HostingInfo;
+    return Hosting;
 }());
+exports.Hosting = Hosting;
 var CloudCredits = (function () {
     function CloudCredits() {
     }
     CloudCredits.Init = function (businessName, legendSelector, creditsSelector) {
         this.Copyright = new CopyrightSection();
-        this.Copyright.Business = new BusinessInfo(businessName);
+        this.Copyright.Business = new Business(businessName);
         this.LegendSelector = legendSelector;
         if (creditsSelector === undefined)
             this.CreditsSelector = this.LegendSelector;
@@ -94,7 +101,14 @@ var CloudCredits = (function () {
     };
     CloudCredits.FillInLegend = function () {
         var content = $(this.LegendSelector).html('');
-        content.append(this.CreateHtmlDiv(this.CreateClassName('LegendContainer'), this.CreateHtmlSpan(this.CreateClassName('Legend'), '© ' + this.Copyright.Business.Name)));
+        var legendContent;
+        if ($(this.LegendSelector).data('legend')) {
+            legendContent = $(this.LegendSelector).data('legend');
+            $(this.LegendSelector).removeAttr('data-legend');
+        }
+        else
+            legendContent = '© ' + this.Copyright.Business.Name;
+        content.append(this.CreateHtmlDiv(this.CreateClassName('LegendContainer'), this.CreateHtmlSpan(this.CreateClassName('Legend'), legendContent)));
     };
     CloudCredits.CreateCreditsContainer = function () {
         var content = $(this.CreditsSelector);
@@ -132,9 +146,9 @@ var CloudCredits = (function () {
             container.append(this.CreateHtmlDiv(this.CreateClassName('Title'), ''));
             container.append(this.GenerateInvolvedBusinesses());
         }
-        if (this.Libraries.length > 0) {
+        if (this.Tools.length > 0) {
             container.append(this.CreateHtmlDiv(this.CreateClassName('Title'), ''));
-            container.append(this.GenerateLibraries());
+            container.append(this.GenerateTools());
         }
         if (this.Hosting !== undefined) {
             container.append(this.CreateHtmlDiv(this.CreateClassName('Title'), 'Hosting'));
@@ -160,15 +174,15 @@ var CloudCredits = (function () {
         });
         return businessesContainer;
     };
-    CloudCredits.GenerateLibraries = function () {
+    CloudCredits.GenerateTools = function () {
         var _this = this;
-        var businessesContainer = this.CreateHtmlDiv(this.CreateClassName('Credits', 'Libraries'));
-        this.Libraries.forEach(function (library) {
-            var businessDiv = _this.CreateHtmlDiv(_this.CreateClassName('LibraryInfo'));
-            if (library.LogoUrl !== undefined)
-                businessDiv.append(_this.CreateHtmlDiv(undefined, _this.CreateHtmlImage(undefined, library.LogoUrl)));
-            businessDiv.append(_this.CreateHtmlAnchor(undefined, library.LinkUrl, library.Name));
-            businessDiv.append(_this.CreateHtmlParagraph(undefined, library.Developer.Name));
+        var businessesContainer = this.CreateHtmlDiv(this.CreateClassName('Credits', 'Tools'));
+        this.Tools.forEach(function (tool) {
+            var businessDiv = _this.CreateHtmlDiv(_this.CreateClassName('ToolInfo'));
+            if (tool.LogoUrl !== undefined)
+                businessDiv.append(_this.CreateHtmlDiv(undefined, _this.CreateHtmlImageLink(undefined, tool.LogoUrl, tool.LinkUrl)));
+            businessDiv.append(_this.CreateHtmlAnchor(undefined, tool.LinkUrl, tool.Name));
+            businessDiv.append(_this.CreateHtmlParagraph(undefined, tool.Developer.Name));
             businessesContainer.append(businessDiv);
         });
         return businessesContainer;
@@ -181,7 +195,7 @@ var CloudCredits = (function () {
     CloudCredits.GenerateBusinessHtml = function (business, innerDescription) {
         var businessDiv = this.CreateHtmlDiv(this.CreateClassName('BusinessInfo'));
         if (business.LogoUrl !== undefined)
-            businessDiv.append(this.CreateHtmlDiv(undefined, this.CreateHtmlImage(undefined, business.LogoUrl)));
+            businessDiv.append(this.CreateHtmlDiv(undefined, this.CreateHtmlImageLink(undefined, business.LogoUrl, business.WebsiteUrl)));
         if (innerDescription !== undefined)
             businessDiv.append(this.CreateHtmlParagraph(undefined, '\xa0' + innerDescription + '\xa0'));
         businessDiv.append(this.GenerateBusinessInfoTextHtml(business));
@@ -239,6 +253,11 @@ var CloudCredits = (function () {
             imageElement.className = className;
         return imageElement;
     };
+    CloudCredits.CreateHtmlImageLink = function (className, source, link) {
+        if (link !== undefined)
+            return this.CreateHtmlAnchor(className, link, this.CreateHtmlImage(undefined, source));
+        return this.CreateHtmlImage(undefined, source);
+    };
     CloudCredits.Display = function () {
         this.FillInLegend();
         this.FillInCreditsSummary();
@@ -267,10 +286,11 @@ var CloudCredits = (function () {
         }
     };
     CloudCredits.InvolvedBusinesses = [];
-    CloudCredits.Libraries = [];
+    CloudCredits.Tools = [];
     CloudCredits.BaseClassName = 'CloudCredits';
     return CloudCredits;
 }());
+exports.CloudCredits = CloudCredits;
 $(function () {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -282,4 +302,3 @@ $(function () {
 $(document).on('click', '.CloudCredits-Legend', function () {
     CloudCredits.ToggleDisplay();
 });
-//# sourceMappingURL=cloudcredits.js.map

@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -33,24 +34,28 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var CopyrightSection = (function () {
     function CopyrightSection() {
         this.Disclaimer = 'All Rights Reserved.';
     }
     return CopyrightSection;
 }());
+exports.CopyrightSection = CopyrightSection;
 var Business = (function () {
     function Business(name) {
         this.Name = name;
     }
     return Business;
 }());
+exports.Business = Business;
 var InvolvedBusiness = (function () {
     function InvolvedBusiness() {
         this.DisplayInSummary = false;
     }
     return InvolvedBusiness;
 }());
+exports.InvolvedBusiness = InvolvedBusiness;
 var Tool = (function () {
     function Tool(name, linkUrl) {
         this.DisplayInSummary = false;
@@ -59,12 +64,14 @@ var Tool = (function () {
     }
     return Tool;
 }());
+exports.Tool = Tool;
 var Hosting = (function () {
     function Hosting() {
         this.DisplayInSummary = false;
     }
     return Hosting;
 }());
+exports.Hosting = Hosting;
 var CloudCredits = (function () {
     function CloudCredits() {
     }
@@ -283,6 +290,7 @@ var CloudCredits = (function () {
     CloudCredits.BaseClassName = 'CloudCredits';
     return CloudCredits;
 }());
+exports.CloudCredits = CloudCredits;
 $(function () {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
