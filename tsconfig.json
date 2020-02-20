@@ -4,12 +4,17 @@
     "noEmitOnError": false,
     "removeComments": true,
     "declaration": true,
+    "sourceMap": true,
     "target": "es5",
     "module": "commonjs",
-    "lib": [ "es2015", "dom" ]
+    "lib": [
+      "es2015",
+      "dom"
+    ]
   },
   "exclude": [
     "node_modules",
-    "projects"
+    "dist",
+    "test"
   ]
 }

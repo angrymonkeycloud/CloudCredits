@@ -1,253 +1,270 @@
-export
+
+// Classes
+//////////////////////////////////////////
+
 class CopyrightSection {
     
-    Disclaimer: string = 'All Rights Reserved.';
-    Business: Business;
+    public constructor(_business: Business){
+        this.business = _business;
+    }
+
+    disclaimer: string = 'All Rights Reserved.';
+    business: Business;
 }
 
-export
 class Business {
     
-    constructor(name: string){
-        this.Name = name;
+    constructor(_name: string){
+        this.name = _name;
     }
     
-    Name: string;
-    WebsiteUrl?: string;
-    LogoUrl?: string;
-    AddressLine1?: string;
-    AddressLine2?: string;
+    name: string;
+    websiteUrl?: string;
+    logoUrl?: string;
+    addressLine1?: string;
+    addressLine2?: string;
 }
 
-export
 class InvolvedBusiness {
     
-    Business: Business;
-    Involvement: string;
-    DisplayInSummary: boolean = false;
+    business: Business;
+    involvement: string;
+    displayInSummary?: boolean = false;
 }
 
-export
 class Tool {
     
-    constructor(name: string, linkUrl: string){
-        this.Name = name;
-        this.LinkUrl = linkUrl;
-    }
-    
-    Name: string;
-    LinkUrl: string;
-    LogoUrl?: string;
-    
-    Developer: Business;
-    
-    DisplayInSummary: boolean = false;
+    name: string;
+    developer: Business;
+
+    linkUrl?: string;
+    logoUrl?: string;    
+    displayInSummary?: boolean = false;
 }
 
-export
 class Hosting {
     
-    Provider: Business;
-    Management: Business;
-    DisplayInSummary: boolean = false;
+    provider: Business;
+    management?: Business;
+    displayInSummary?: boolean = false;
 }
 
-export
+// Interfaces
+//////////////////////////////////////////
+
+interface CloudCreditsSettings {
+    copyright: CopyrightSection;
+    legendSelector: string;
+    creditsSelector?: string;
+    involvedBusinesses?: InvolvedBusiness[];
+    tools?: Tool[];
+    hosting?: Hosting;
+}
+
 class CloudCredits {
     
     // Private Variables
-    private static LegendSelector: string;
-    private static CreditsSelector: string;
+    private static _settings: CloudCreditsSettings;
+
+    // Constructors
+
+    public constructor(settings: CloudCreditsSettings){
+        
+        CloudCredits._settings = this.mergeSettings(settings);
+
+        if (CloudCredits._settings.creditsSelector === undefined)
+        CloudCredits._settings.creditsSelector = CloudCredits._settings.legendSelector;
+    
+        CloudCredits.display();
+    }
+    
+    private mergeSettings(_settings: CloudCreditsSettings): CloudCreditsSettings {
+        const settings : CloudCreditsSettings = {
+            legendSelector: undefined,
+            creditsSelector: undefined,
+            copyright: undefined,
+            involvedBusinesses: [],
+            tools: [],
+            hosting: undefined
+        };
+
+        for (const attrname in _settings) 
+            settings[attrname] = _settings[attrname];
+        
+        return settings;
+    }
     
     // Public Variables
     
-    static Copyright: CopyrightSection;
-    static InvolvedBusinesses: InvolvedBusiness[] = [];
-    static Tools: Tool[] = [];
-    static Hosting: Hosting;
+    private static baseClassName: string = 'cloudcredits';
     
-    static Init(businessName: string, legendSelector: string, creditsSelector?: string) {
-        
-        this.Copyright = new CopyrightSection();
-        this.Copyright.Business = new Business(businessName);
-        
-        this.LegendSelector = legendSelector;
-        
-        if (creditsSelector === undefined)
-        this.CreditsSelector = this.LegendSelector;
-        else 
-        this.CreditsSelector = creditsSelector;
-    }
-    
-    private static BaseClassName: string = 'CloudCredits';
-    
-    private static GenerateCopyrightSection(): HTMLElement {
+    private static generateCopyrightSection(): HTMLElement {
         
         // Main Div
-        let main = this.CreateHtmlDiv(this.CreateClassName('Copyright'))
+        let main = this.createHtmlDiv(this.createClassName('copyright'))
         
         // Copyright Disclaimer
-        main.appendChild(this.CreateHtmlDiv(this.CreateClassName('Copyright', 'Disclaimer'), this.Copyright.Disclaimer));
+        main.appendChild(this.createHtmlDiv(this.createClassName('copyright', 'disclaimer'), this._settings.copyright.disclaimer));
         
         // Business
-        let business = this.CreateHtmlDiv(this.CreateClassName('Copyright', 'Business'));
+        let business = this.createHtmlDiv(this.createClassName('copyright', 'business'));
         main.appendChild(business);
         
         // Business Name
-        if (this.Copyright.Business.Name !== undefined)
-        business.append(this.CreateHtmlDiv(this.CreateClassName('Copyright', 'Business', 'Name'), this.Copyright.Business.Name));
+        if (this._settings.copyright.business.name !== undefined)
+        business.append(this.createHtmlDiv(this.createClassName('copyright', 'business', 'name'), this._settings.copyright.business.name));
         
         // Business Address 1
-        if (this.Copyright.Business.AddressLine1 !== undefined)
-        business.append(this.CreateHtmlDiv(this.CreateClassName('Copyright', 'Business', 'Address1'), this.Copyright.Business.AddressLine1));
+        if (this._settings.copyright.business.addressLine1 !== undefined)
+        business.append(this.createHtmlDiv(this.createClassName('copyright', 'business', 'address1'), this._settings.copyright.business.addressLine1));
         
         // Business Address 2
-        if (this.Copyright.Business.AddressLine2 !== undefined)
-        business.append(this.CreateHtmlDiv(this.CreateClassName('Copyright', 'Business', 'Address2'), this.Copyright.Business.AddressLine2));
+        if (this._settings.copyright.business.addressLine2 !== undefined)
+        business.append(this.createHtmlDiv(this.createClassName('copyright', 'business', 'address2'), this._settings.copyright.business.addressLine2));
         
         // Business Website Url
-        if (this.Copyright.Business.WebsiteUrl !== undefined)
-        business.append(this.CreateHtmlDiv(this.CreateClassName('Copyright', 'Business', 'WebsiteUrl'), this.Copyright.Business.WebsiteUrl));
+        if (this._settings.copyright.business.websiteUrl !== undefined)
+        business.append(this.createHtmlDiv(this.createClassName('copyright', 'business', 'websiteUrl'), this._settings.copyright.business.websiteUrl));
         
         return main;
     }
     
-    private static FillInLegend() : void {
+    private static fillInLegend() : void {
         
-        let content = $(this.LegendSelector).html('');
+        let content = $(this._settings.legendSelector).html('');
         
         let legendContent : string;
         
-        if ($(this.LegendSelector).data('legend')){
-            legendContent = $(this.LegendSelector).data('legend');
-            $(this.LegendSelector).removeAttr('data-legend');
+        if ($(this._settings.legendSelector).data('legend')){
+            legendContent = $(this._settings.legendSelector).data('legend');
+            $(this._settings.legendSelector).removeAttr('data-legend');
         }
-        else legendContent = '© ' + this.Copyright.Business.Name;
+        else legendContent = '© ' + this._settings.copyright.business.name;
         
-        content.append(this.CreateHtmlDiv(this.CreateClassName('LegendContainer'), this.CreateHtmlSpan(this.CreateClassName('Legend'), legendContent)));
+        content.append(this.createHtmlDiv(this.createClassName('legendcontainer'), this.createHtmlSpan(this.createClassName('legend'), legendContent)));
     }
     
-    private static CreateCreditsContainer() : HTMLElement{
+    private static createCreditsContainer() : HTMLElement{
         
-        let content = $(this.CreditsSelector);
-        let containerClassName = this.CreateClassName('CreditsContainer');
+        let content = $(this._settings.creditsSelector);
+        let containerClassName = this.createClassName('creditscontainer');
         
         let container = $('.' + containerClassName);
         
         if (container.length > 0)
         return container[0];
         
-        content.append(this.CreateHtmlDiv(containerClassName));
+        content.append(this.createHtmlDiv(containerClassName));
         container =  $('.' + containerClassName);
         
         return container[0];
     }
     
-    private static FillInCreditsSummary() : void{
+    private static fillInCreditsSummary() : void{
         
-        let container = $(this.CreateCreditsContainer());
-        let summarySelectorClassName = this.CreateClassName('CreditsSummary');
+        let container = $(this.createCreditsContainer());
+        let summarySelectorClassName = this.createClassName('creditssummary');
         
         if (!container.hasClass(summarySelectorClassName))
         container.addClass(summarySelectorClassName);
         
-        this.InvolvedBusinesses.forEach((business) =>{
+        this._settings.involvedBusinesses.forEach((business) =>{
             
-            if (!business.DisplayInSummary)
+            if (!business.displayInSummary)
             return;
             
-            let section = this.CreateHtmlDiv(undefined);
+            let section = this.createHtmlDiv(undefined);
             
-            section.append(this.CreateHtmlParagraph(undefined,  business.Involvement + ' by\xa0'));
+            section.append(this.createHtmlParagraph(undefined,  business.involvement + ' by\xa0'));
             
-            section.append(this.GenerateBusinessInfoTextHtml(business.Business));
+            section.append(this.generateBusinessInfoTextHtml(business.business));
             
-            section.append(this.CreateHtmlParagraph(undefined, '\xa0'));
+            section.append(this.createHtmlParagraph(undefined, '\xa0'));
             
             container.append(section);
         });
     }
     
-    private static FillInCredits() : void{
+    private static fillInCredits() : void{
         
-        let container = $(this.CreateCreditsContainer());
+        let container = $(this.createCreditsContainer());
         
-        let creditsSelectorClassName = this.CreateClassName('Credits');
+        let creditsSelectorClassName = this.createClassName('credits');
         
         if (!container.hasClass(creditsSelectorClassName))
         container.addClass(creditsSelectorClassName);
         
         // Copyright
         
-        container.append(this.GenerateCreditsCopyright());
+        container.append(this.generateCreditsCopyright());
         
         // Involved
         
-        if (this.InvolvedBusinesses.length > 0){
+        if (this._settings.involvedBusinesses.length > 0){
             
-            container.append(this.CreateHtmlDiv(this.CreateClassName('Title'), ''));
-            container.append(this.GenerateInvolvedBusinesses());
+            container.append(this.createHtmlDiv(this.createClassName('title'), ''));
+            container.append(this.generateInvolvedBusinesses());
         }
         
         // Tools
         
-        if (this.Tools.length > 0){
+        if (this._settings.tools.length > 0){
             
-            container.append(this.CreateHtmlDiv(this.CreateClassName('Title'), ''));
-            container.append(this.GenerateTools());
+            container.append(this.createHtmlDiv(this.createClassName('title'), ''));
+            container.append(this.generateTools());
         }
         
         // Hosting
         
-        if (this.Hosting !== undefined){
+        if (this._settings.hosting !== undefined){
             
-            container.append(this.CreateHtmlDiv(this.CreateClassName('Title'), 'Hosting'));
+            container.append(this.createHtmlDiv(this.createClassName('title'), 'Hosting'));
             
-            let subTitle = this.CreateHtmlDiv(this.CreateClassName('SubTitle'), this.CreateHtmlSpan(undefined, 'managed by '));
-            subTitle.append(this.GenerateBusinessInfoTextHtml(this.Hosting.Management));
+            let subTitle = this.createHtmlDiv(this.createClassName('SubTitle'), this.createHtmlSpan(undefined, 'managed by '));
+            subTitle.append(this.generateBusinessInfoTextHtml(this._settings.hosting.management));
             container.append(subTitle);
             
-            container.append(this.GenerateHosting());
+            container.append(this.generateHosting());
         }
     }
     
-    private static GenerateCreditsCopyright(): HTMLElement{
+    private static generateCreditsCopyright(): HTMLElement{
         
-        return this.CreateHtmlDiv(this.CreateClassName('Credits', 'Copyright', 'Disclaimer'), this.Copyright.Disclaimer);
+        return this.createHtmlDiv(this.createClassName('credits', 'copyright', 'disclaimer'), this._settings.copyright.disclaimer);
     }
     
-    private static GenerateBusinessInfoTextHtml(business: Business): HTMLElement{
+    private static generateBusinessInfoTextHtml(business: Business): HTMLElement{
         
-        if (business.WebsiteUrl !== undefined)
-        return this.CreateHtmlAnchor(undefined, business.WebsiteUrl, business.Name);
+        if (business.websiteUrl !== undefined)
+        return this.createHtmlAnchor(undefined, business.websiteUrl, business.name);
         
-        return this.CreateHtmlParagraph(undefined, business.Name);
+        return this.createHtmlParagraph(undefined, business.name);
     }
     
-    private static GenerateInvolvedBusinesses(): HTMLElement{
+    private static generateInvolvedBusinesses(): HTMLElement{
         
-        let businessesContainer = this.CreateHtmlDiv(this.CreateClassName('Credits', 'Involved'));
+        let businessesContainer = this.createHtmlDiv(this.createClassName('credits', 'involved'));
         
-        this.InvolvedBusinesses.forEach((business) =>{
-            businessesContainer.append(this.GenerateBusinessHtml(business.Business, business.Involvement + ' by'));
+        this._settings.involvedBusinesses.forEach((business) =>{
+            businessesContainer.append(this.generateBusinessHtml(business.business, business.involvement + ' by'));
         });
         
         return businessesContainer;
     }
     
-    private static GenerateTools(): HTMLElement{
+    private static generateTools(): HTMLElement{
         
-        let businessesContainer = this.CreateHtmlDiv(this.CreateClassName('Credits', 'Tools'));
+        let businessesContainer = this.createHtmlDiv(this.createClassName('credits', 'tools'));
         
-        this.Tools.forEach((tool) =>{
-            let businessDiv = this.CreateHtmlDiv(this.CreateClassName('ToolInfo'));
+        this._settings.tools.forEach((tool) =>{
+            let businessDiv = this.createHtmlDiv(this.createClassName('toolinfo'));
             
-            if (tool.LogoUrl !== undefined)
-            businessDiv.append(this.CreateHtmlDiv(undefined, this.CreateHtmlImageLink(undefined, tool.LogoUrl, tool.LinkUrl)));
+            if (tool.logoUrl !== undefined)
+            businessDiv.append(this.createHtmlDiv(undefined, this.createHtmlImageLink(undefined, tool.logoUrl, tool.linkUrl)));
             
-            businessDiv.append(this.CreateHtmlAnchor(undefined, tool.LinkUrl, tool.Name));
+            businessDiv.append(this.createHtmlAnchor(undefined, tool.linkUrl, tool.name));
             
-            businessDiv.append(this.CreateHtmlParagraph(undefined, tool.Developer.Name));
+            businessDiv.append(this.createHtmlParagraph(undefined, tool.developer.name));
             
             businessesContainer.append(businessDiv);
         });
@@ -255,35 +272,35 @@ class CloudCredits {
         return businessesContainer;
     }
     
-    private static GenerateHosting(): HTMLElement{
+    private static generateHosting(): HTMLElement{
         
-        let businessesContainer = this.CreateHtmlDiv(this.CreateClassName('Credits', 'Hosting'));
+        let businessesContainer = this.createHtmlDiv(this.createClassName('credits', 'hosting'));
         
-        businessesContainer.append(this.GenerateBusinessHtml(this.Hosting.Provider));
+        businessesContainer.append(this.generateBusinessHtml(this._settings.hosting.provider));
         
         return businessesContainer;
     }
     
-    private static GenerateBusinessHtml(business : Business, innerDescription? : string):HTMLElement
+    private static generateBusinessHtml(business : Business, innerDescription? : string):HTMLElement
     {
         
-        let businessDiv = this.CreateHtmlDiv(this.CreateClassName('BusinessInfo'));
+        let businessDiv = this.createHtmlDiv(this.createClassName('businessinfo'));
         
-        if (business.LogoUrl !== undefined)
-        businessDiv.append(this.CreateHtmlDiv(undefined, this.CreateHtmlImageLink(undefined, business.LogoUrl, business.WebsiteUrl)));
+        if (business.logoUrl !== undefined)
+        businessDiv.append(this.createHtmlDiv(undefined, this.createHtmlImageLink(undefined, business.logoUrl, business.websiteUrl)));
         
         if (innerDescription !== undefined)
-        businessDiv.append(this.CreateHtmlParagraph(undefined,  '\xa0' + innerDescription + '\xa0'));
+        businessDiv.append(this.createHtmlParagraph(undefined,  '\xa0' + innerDescription + '\xa0'));
         
-        businessDiv.append(this.GenerateBusinessInfoTextHtml(business));
+        businessDiv.append(this.generateBusinessInfoTextHtml(business));
         
         return businessDiv;
     }
     
     // Create Methods
     
-    private static CreateClassName(...namingSections: string[]) : string{
-        let fullClassName = this.BaseClassName;
+    private static createClassName(...namingSections: string[]) : string{
+        let fullClassName = this.baseClassName;
         
         namingSections.forEach((section) => {
             fullClassName += '-' + section;
@@ -292,7 +309,7 @@ class CloudCredits {
         return fullClassName;
     }
     
-    private static CreateHtmlDiv(className: string, content?: string | Node):HTMLDivElement{
+    private static createHtmlDiv(className: string, content?: string | Node):HTMLDivElement{
         
         let divElement = document.createElement('div');
         
@@ -305,7 +322,7 @@ class CloudCredits {
         return divElement;
     }
     
-    private static CreateHtmlSpan(className: string, content?: string | Node): HTMLSpanElement{
+    private static createHtmlSpan(className: string, content?: string | Node): HTMLSpanElement{
         
         let divElement = document.createElement('span');
         
@@ -318,7 +335,7 @@ class CloudCredits {
         return divElement;
     }
     
-    private static CreateHtmlParagraph(className: string, content?: string | Node): HTMLParagraphElement{
+    private static createHtmlParagraph(className: string, content?: string | Node): HTMLParagraphElement{
         
         let divElement = document.createElement('p');
         
@@ -331,7 +348,7 @@ class CloudCredits {
         return divElement;
     }
     
-    private static CreateHtmlAnchor(className: string, link: string, content?: string | Node): HTMLAnchorElement{
+    private static createHtmlAnchor(className: string, link: string, content?: string | Node): HTMLAnchorElement{
         
         let divElement = document.createElement('a');
         divElement.href = link;
@@ -346,7 +363,7 @@ class CloudCredits {
         return divElement;
     }
     
-    private static CreateHtmlImage(className: string, source: string): HTMLImageElement{
+    private static createHtmlImage(className: string, source: string): HTMLImageElement{
         
         let imageElement = document.createElement('img');
         imageElement.src = source;
@@ -357,37 +374,37 @@ class CloudCredits {
         return imageElement;
     }
     
-    private static CreateHtmlImageLink(className: string, source: string, link?: string): HTMLElement{
+    private static createHtmlImageLink(className: string, source: string, link?: string): HTMLElement{
         
         if (link !== undefined)
-        return this.CreateHtmlAnchor(className, link, this.CreateHtmlImage(undefined, source));
+        return this.createHtmlAnchor(className, link, this.createHtmlImage(undefined, source));
         
-        return this.CreateHtmlImage(undefined, source);
+        return this.createHtmlImage(undefined, source);
+    }
+    
+    private static display() : void {
+        
+        // Summary
+        this.fillInLegend();
+        
+        // Credits
+        this.fillInCreditsSummary()
     }
     
     // Public Methods
     
-    static Display() : void {
+    static toggleDisplay() : void {
         
-        // Summary
-        this.FillInLegend();
-        
-        // Credits
-        this.FillInCreditsSummary()
-    }
-    
-    static ToggleDisplay() : void {
-        
-        let credits = $('.CloudCredits-CreditsContainer');
+        let credits = $('.cloudcredits-creditscontainer');
         credits.html('');
         
-        if (credits.hasClass('CloudCredits-CreditsSummary'))
+        if (credits.hasClass('cloudcredits-creditssummary'))
         {
             
-            this.FillInCredits();
-            credits.removeClass('CloudCredits-CreditsSummary');
+            this.fillInCredits();
+            credits.removeClass('cloudcredits-creditssummary');
             
-            $('.CloudCredits-Legend').addClass("Extended");
+            $('.cloudcredits-legend').addClass("Extended");
             
             // Scroll
             
@@ -399,28 +416,25 @@ class CloudCredits {
                 bodySelector = selector;
             });
             
-            let topScrollValue = $(".CloudCredits-Legend").position().top;
+            let topScrollValue = $(".cloudcredits-legend").position().top;
             
             if (bodySelector !== 'body')
-            topScrollValue = $(bodySelector).scrollTop() + $('.CloudCredits-Legend').offset().top;
+            topScrollValue = $(bodySelector).scrollTop() + $('.cloudcredits-legend').offset().top;
             
             $(bodySelector).animate({ scrollTop: topScrollValue }, 'fast');           
         }else{
             
-            this.FillInCreditsSummary();
+            this.fillInCreditsSummary();
             credits.removeClass('CloudCredits-Credits');     
             
-            $('.CloudCredits-Legend').removeClass("Extended");
+            $('.cloudcredits-legend').removeClass("Extended");
         }
     }
 }
 
-$(async function () {
-    
-    CloudCredits.Display();
-});
+const cloudCredits = (settings: CloudCreditsSettings) => new CloudCredits(settings);
 
-$(document).on('click', '.CloudCredits-Legend', function(){
+$(document).on('click', '.cloudcredits-legend', function(){
     
-    CloudCredits.ToggleDisplay();
+    CloudCredits.toggleDisplay();
 });

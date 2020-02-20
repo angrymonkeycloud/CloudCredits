@@ -1,110 +1,110 @@
-.CloudCredits-LegendContainer,
-.CloudCredits-CreditsContainer
-{
-    text-align: center;
-}
+.cloudcredits {
 
-// :root{
-//     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-// }
-
-.CloudCredits-Legend{
-    
-    -webkit-user-select: none;
-    cursor: pointer;
-    
-    &::after{
-        content: '▾';
-        padding-left: 5px;
-        display: inline-block;
-        position: absolute;
-        font-size: 1.5em;
-        opacity: 0.5;
-        margin-top: -0.3em;
+    &-legendcontainer,
+    &-creditscontainer {
+        text-align: center;
     }
-    
-    &.Extended{
-        
-        &::after{
-            content: '▴';
-        }
-    }
-}
 
-.CloudCredits-CreditsSummary{
-    font-size: 0.9em;
-    
-    > div{
-        padding: 5px;
-        
-        >a, p{
+    &-legend {
+
+        -webkit-user-select: none;
+        cursor: pointer;
+
+        &::after {
+            content: '▾';
+            padding-left: 5px;
             display: inline-block;
-            white-space: nowrap;
-            margin: 0;
+            position: absolute;
+            font-size: 1.5em;
+            opacity: 0.5;
+            margin-top: -0.3em;
+        }
+
+        &.extended {
+
+            &::after {
+                content: '▴';
+            }
         }
     }
-}
 
-.CloudCredits-Credits{
-    
-    img{
-        width: 48px;
-        height: 48px;
-        margin-bottom: 5px;
-    }
-    
-    .CloudCredits-Title,
-    .CloudCredits-SubTitle{
-        margin-bottom: 5px;
-    }
-    
-    .CloudCredits-Title{
-        margin-top: 30px;
-        text-transform: uppercase;
-        opacity: 0.5;
-    }
-    
-    .CloudCredits-SubTitle{
+
+    &-creditssummary {
         font-size: 0.9em;
-        
-        > span{
+
+        >div {
+            padding: 5px;
+
+            >a,
+            p {
+                display: inline-block;
+                white-space: nowrap;
+                margin: 0;
+            }
+        }
+    }
+
+    &-credits {
+
+        img {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 5px;
+        }
+
+        .cloudcredits-title,
+        .cloudcredits-subtitle {
+            margin-bottom: 5px;
+        }
+
+        .cloudcredits-title {
+            margin-top: 30px;
+            text-transform: uppercase;
             opacity: 0.5;
         }
-    }
-    
-    .CloudCredits-Credits-Copyright-Disclaimer{
-        
-        font-size: 0.9em;
-        opacity: 0.5;
-    }
-    
-    .CloudCredits-BusinessInfo,
-    .CloudCredits-ToolInfo{
-        white-space: nowrap;
-        padding: 20px;
-        margin-top: 10px;
-        
-        > *{
-            display: block;
+
+        .cloudcredits-subtitle {
             font-size: 0.9em;
-        }
-        
-        p{
-            margin: 0;
+
+            >span {
+                opacity: 0.5;
+            }
         }
 
-        img{
-            margin-left: auto;
-            margin-right: auto;
+        .cloudcredits-credits-copyright-disclaimer {
+
+            font-size: 0.9em;
+            opacity: 0.5;
         }
-    }
-    
-    .CloudCredits-Credits-Involved,
-    .CloudCredits-Credits-Tools,
-    .CloudCredits-Credits-Hosting{
-        
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
+
+        .cloudcredits-businessinfo,
+        .cloudcredits-toolinfo {
+            white-space: nowrap;
+            padding: 20px;
+            margin-top: 10px;
+
+            >* {
+                display: block;
+                font-size: 0.9em;
+            }
+
+            p {
+                margin: 0;
+            }
+
+            img {
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        .cloudcredits-credits-involved,
+        .cloudcredits-credits-tools,
+        .cloudcredits-credits-hosting {
+
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
     }
 }

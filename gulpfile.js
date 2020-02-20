@@ -6,19 +6,26 @@ var less = require('gulp-less');
 var cleanCSS = require('gulp-clean-css');
 var tsProject = ts.createProject('tsconfig.json');
 
-var version = '1.0.2';
+//------------------------------
+// Semantic Versioning
+
+// 1. Major: Changes that break backward compatibility | Increment the first digit and reset middle and last digits to zero.
+// 2. Minor: Backward compatible new features | Increment the middle digit and reset last digit to zero.
+// 3. Patch: Backward compatible bug fixes | Increment the third digit.
+// more info at: https://semver.org/
+
+var version = '1.1.0';
 
 // -------------------------------------------
 // JS
 // -------------------------------------------
 
-gulp.task('jsWithoutVersioning', function() {
+gulp.task('distributeJS', function() {
 
     // copy d.ts
     gulp.src('src/cloudcredits.d.ts')
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('dist/' + version));
 
-    // convert to js
     return tsProject.src()
         .pipe(tsProject())
         .js
@@ -27,66 +34,38 @@ gulp.task('jsWithoutVersioning', function() {
                 min: '.min.js'
             }
         }))
-        .pipe(gulp.dest('dist'));
-
-});
-
-gulp.task('jsWithVersioning', function() {
-
-    // copy d.ts
-    gulp.src('src/cloudcredits.d.ts')
-        .pipe(rename('cloudcredits-' + version + '.d.ts'))
-        .pipe(gulp.dest('dist'));
-
-    // convert to js
-    return tsProject.src()
-        .pipe(tsProject())
-        .js
-        .pipe(rename({
-            suffix: '-' + version
-        }))
-        .pipe(minify({
-            ext: {
-                min: '.min.js'
-            }
-        }))
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('dist/' + version + '/js'));
 });
 
 // -------------------------------------------
 // CSS
 // -------------------------------------------
 
-gulp.task('cssWithoutVersioning', function() {
+gulp.task('distributeCSS', function() {
 
     return gulp
         .src('src/*.less')
         .pipe(less())
-        .pipe(gulp.dest('dist'))
+        .pipe(gulp.dest('dist/' + version + '/css'))
         .pipe(cleanCSS({ compatibility: 'ie8' }))
         .pipe(rename({
             suffix: '.min'
         }))
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('dist/' + version + '/css'));
 });
 
-gulp.task('cssWithVersioning', function() {
 
-    return gulp
-        .src('src/*.less')
-        .pipe(less())
-        .pipe(rename({
-            suffix: '-' + version
-        }))
-        .pipe(gulp.dest('dist'))
-        .pipe(cleanCSS({ compatibility: 'ie8' }))
-        .pipe(rename({
-            suffix: '.min'
-        }))
-        .pipe(gulp.dest('dist'));
-});
+gulp.task('default', gulp.series('distributeJS', 'distributeCSS'));
 
-gulp.watch('src/*.less', gulp.series('cssWithoutVersioning', 'cssWithVersioning'));
-gulp.watch('src/*.ts', gulp.series('jsWithoutVersioning', 'jsWithVersioning'));
+// -------------------------------------------
+// Test
+// -------------------------------------------
 
-gulp.task('default', gulp.series('jsWithoutVersioning', 'jsWithVersioning', 'cssWithoutVersioning', 'cssWithVersioning'));
+// gulp.task("generateTestCSS", function() {
+//     return gulp
+//         .src('src/*.less')
+//         .pipe(less())
+//         .pipe(gulp.dest("test/css"));
+// });
+
+// gulp.watch("src/*.less", gulp.series("generateTestCSS"));

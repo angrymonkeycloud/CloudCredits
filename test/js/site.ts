@@ -1,33 +1,4 @@
-[Cloud Credits](https://angrymonkeycloud.com/credits)
-==================================================
-A JavaScript library for displaying copyright, design and development, libraries, and hosting information and credits.
 
-# Contribution
-Check out https://angrymonkeycloud.com/credits for contribution information.
-
-# Implementation
-## Requirements
-jQuery 2.x or 3.x: [jQuery CDN](https://code.jquery.com/), [download jQuery](https://jquery.com/download/).
-
-## Cloud Credits Files
-### Download
-Cloud Credits JavaScript files: [Uncompressed](https://cdn.amcapi.com/credits/1.1.0/js/cloudcredits.js), [Compressed](https://cdn.amcapi.com/credits/1.1.0/js/cloudcredits.min.js).
-
-Cloud Credits CSS files: [Uncompressed](https://cdn.amcapi.com/credits/1.1.0/css/cloudcredits.css), [Compressed](https://cdn.amcapi.com/credits/1.1.0/css/cloudcredits.min.css).
- 
-### CDN
-Cloud Credits JavaScript Compressed
-```html
-<script src="https://cdn.amcapi.com/credits/1.1.0/js/cloudcredits.min.js" crossorigin="anonymous"></script> 
-```
-
-Cloud Credits CSS Compressed
-```html
-<link href="https://cdn.amcapi.com/credits/1.1.0/css/cloudcredits.min.css" rel="stylesheet" />
-```
-
-## Sample
-```js
 let agencyBusiness = new Business('Angry Monkey Agency');
 agencyBusiness.websiteUrl = 'https://www.angrymonkeyagency.com/';
 agencyBusiness.logoUrl = 'https://www.angrymonkeyagency.com/favicon.ico';
@@ -71,4 +42,3 @@ cloudCredits({
         management: agencyBusiness
     }
 });
-```
