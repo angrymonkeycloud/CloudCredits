@@ -1,0 +1,83 @@
+.cloudcredits-legendcontainer,
+.cloudcredits-creditscontainer {
+  text-align: center;
+}
+.cloudcredits-legend {
+  -webkit-user-select: none;
+  cursor: pointer;
+}
+.cloudcredits-legend::after {
+  content: '▾';
+  padding-left: 5px;
+  display: inline-block;
+  position: absolute;
+  font-size: 1.5em;
+  opacity: 0.5;
+  margin-top: -0.3em;
+}
+.cloudcredits-legend.extended::after {
+  content: '▴';
+}
+.cloudcredits-creditssummary {
+  font-size: 0.9em;
+}
+.cloudcredits-creditssummary > div {
+  padding: 5px;
+}
+.cloudcredits-creditssummary > div > a,
+.cloudcredits-creditssummary > div p {
+  display: inline-block;
+  white-space: nowrap;
+  margin: 0;
+}
+.cloudcredits-credits img {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 5px;
+}
+.cloudcredits-credits .cloudcredits-title,
+.cloudcredits-credits .cloudcredits-subtitle {
+  margin-bottom: 5px;
+}
+.cloudcredits-credits .cloudcredits-title {
+  margin-top: 30px;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+.cloudcredits-credits .cloudcredits-subtitle {
+  font-size: 0.9em;
+}
+.cloudcredits-credits .cloudcredits-subtitle > span {
+  opacity: 0.5;
+}
+.cloudcredits-credits .cloudcredits-credits-copyright-disclaimer {
+  font-size: 0.9em;
+  opacity: 0.5;
+}
+.cloudcredits-credits .cloudcredits-businessinfo,
+.cloudcredits-credits .cloudcredits-toolinfo {
+  white-space: nowrap;
+  padding: 20px;
+  margin-top: 10px;
+}
+.cloudcredits-credits .cloudcredits-businessinfo > *,
+.cloudcredits-credits .cloudcredits-toolinfo > * {
+  display: block;
+  font-size: 0.9em;
+}
+.cloudcredits-credits .cloudcredits-businessinfo p,
+.cloudcredits-credits .cloudcredits-toolinfo p {
+  margin: 0;
+}
+.cloudcredits-credits .cloudcredits-businessinfo img,
+.cloudcredits-credits .cloudcredits-toolinfo img {
+  margin-left: auto;
+  margin-right: auto;
+}
+.cloudcredits-credits .cloudcredits-credits-involved,
+.cloudcredits-credits .cloudcredits-credits-tools,
+.cloudcredits-credits .cloudcredits-credits-hosting {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}

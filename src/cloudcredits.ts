@@ -392,6 +392,44 @@ class CloudCredits {
     }
     
     // Public Methods
+
+    private static scrollTo(scrollToElement: Element, scrollDuration: number): void {
+
+        const scrollTo = window.pageYOffset + scrollToElement.getBoundingClientRect().top;
+                
+        // Declarations
+    
+        let cosParameter = (window.pageYOffset - scrollTo) / 2,
+            scrollCount = 0,
+            oldTimestamp = window.performance.now();
+    
+        function step(newTimestamp: number): void {
+    
+            let tsDiff = newTimestamp - oldTimestamp;
+    
+            // Performance.now() polyfill loads late so passed-in timestamp is a larger offset
+            // on the first go-through than we want so I'm adjusting the difference down here.
+            // Regardless, we would rather have a slightly slower animation than a big jump so a good
+            // safeguard, even if we're not using the polyfill.
+    
+            if (tsDiff > 100)
+                tsDiff = 30;
+    
+            scrollCount += Math.PI / (scrollDuration / tsDiff);
+    
+            // As soon as we cross over Pi, we're about where we need to be
+    
+            if (scrollCount >= Math.PI)
+                return;
+    
+            const moveStep = Math.round(scrollTo + cosParameter + cosParameter * Math.cos(scrollCount));
+            window.scrollTo(0, moveStep);
+            oldTimestamp = newTimestamp;
+            window.requestAnimationFrame(step);
+        }
+    
+        window.requestAnimationFrame(step);
+    }
     
     static toggleDisplay() : void {
         
@@ -406,22 +444,8 @@ class CloudCredits {
             
             $('.cloudcredits-legend').addClass("Extended");
             
-            // Scroll
-            
-            let bodySelector = 'body';
-            
-            ['#Body','#body','.Body','.body'].forEach((selector) =>{
-                
-                if ($(selector).length > 0)
-                bodySelector = selector;
-            });
-            
-            let topScrollValue = $(".cloudcredits-legend").position().top;
-            
-            if (bodySelector !== 'body')
-            topScrollValue = $(bodySelector).scrollTop() + $('.cloudcredits-legend').offset().top;
-            
-            $(bodySelector).animate({ scrollTop: topScrollValue }, 'fast');           
+            this.scrollTo(document.querySelector('.cloudcredits-legend'), 200);
+
         }else{
             
             this.fillInCreditsSummary();

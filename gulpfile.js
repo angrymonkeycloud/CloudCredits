@@ -14,7 +14,7 @@ var tsProject = ts.createProject('tsconfig.json');
 // 3. Patch: Backward compatible bug fixes | Increment the third digit.
 // more info at: https://semver.org/
 
-var version = '1.1.0';
+var version = '1.1.1';
 
 // -------------------------------------------
 // JS

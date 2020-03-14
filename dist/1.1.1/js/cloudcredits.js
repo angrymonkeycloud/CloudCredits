@@ -266,4 +266,3 @@ var cloudCredits = function (settings) { return new CloudCredits(settings); };
 $(document).on('click', '.cloudcredits-legend', function () {
     CloudCredits.toggleDisplay();
 });
-//# sourceMappingURL=cloudcredits.js.map
