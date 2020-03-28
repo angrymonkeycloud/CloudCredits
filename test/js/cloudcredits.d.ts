@@ -1,9 +1,4 @@
-declare class CopyrightSection {
-    constructor(_business: Business);
-    disclaimer: string;
-    business: Business;
-}
-declare class Business {
+export declare class Business {
     constructor(_name: string);
     name: string;
     websiteUrl?: string;
@@ -11,24 +6,42 @@ declare class Business {
     addressLine1?: string;
     addressLine2?: string;
 }
-declare class InvolvedBusiness {
+
+import { Business } from './Business';
+export declare class CopyrightSection {
+    constructor(_business: Business);
+    disclaimer: string;
+    business: Business;
+}
+
+import { Business } from './Business';
+export declare class Hosting {
+    provider: Business;
+    management?: Business;
+    displayInSummary?: boolean;
+}
+
+import { Business } from './Business';
+export declare class InvolvedBusiness {
     business: Business;
     involvement: string;
     displayInSummary?: boolean;
 }
-declare class Tool {
+
+import { Business } from './Business';
+export declare class Tool {
     name: string;
     developer: Business;
     linkUrl?: string;
     logoUrl?: string;
     displayInSummary?: boolean;
 }
-declare class Hosting {
-    provider: Business;
-    management?: Business;
-    displayInSummary?: boolean;
-}
-interface CloudCreditsSettings {
+
+import { Tool } from './classes/Tool';
+import { CopyrightSection } from './classes/CopyrightSection';
+import { InvolvedBusiness } from './classes/InvolvedBusiness';
+import { Hosting } from './Classes/Hosting';
+export interface CloudCreditsSettings {
     copyright: CopyrightSection;
     legendSelector: string;
     creditsSelector?: string;
@@ -36,6 +49,8 @@ interface CloudCreditsSettings {
     tools?: Tool[];
     hosting?: Hosting;
 }
+
+import { CloudCreditsSettings } from "./Settings";
 declare class CloudCredits {
     private static _settings;
     constructor(settings: CloudCreditsSettings);
@@ -64,3 +79,4 @@ declare class CloudCredits {
     static toggleDisplay(): void;
 }
 declare const cloudCredits: (settings: CloudCreditsSettings) => CloudCredits;
+export default cloudCredits;

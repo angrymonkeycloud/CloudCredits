@@ -1,0 +1,78 @@
+{
+    "builds": [{
+            "name": "dev",
+            "css": {
+                "minify": false,
+                "sourceMap": true
+            },
+            "js": {
+                "minify": false,
+                "sourceMap": true,
+                "declaration": true,
+                "webClean": true
+            },
+            "ts": {
+                "compilerOptions": {
+                    "noImplicitAny": false,
+                    "noEmitOnError": false,
+                    "removeComments": true,
+                    "target": "es5",
+                    "lib": ["ES2015", "DOM"],
+                    "module": "ES6"
+                }
+            }
+        },
+        {
+            "name": "dist",
+            "outDir": "dist",
+            "outDirVersioning": true,
+            "outDirName": false,
+            "css": {
+                "outDirSuffix": "css",
+                "minify": true,
+                "sourceMap": false
+            },
+            "js": {
+                "outDirSuffix": "js",
+                "minify": true,
+                "sourceMap": false,
+                "declaration": true,
+                "webClean": true
+            },
+            "ts": {
+                "compilerOptions": {
+                    "noImplicitAny": false,
+                    "noEmitOnError": false,
+                    "removeComments": true,
+                    "target": "es5",
+                    "lib": ["ES2015", "DOM"]
+                }
+            }
+        }
+    ],
+    "files": [{
+        "output": ["test/js/site.js"],
+        "input": [
+            "test/site.ts"
+        ],
+        "builds": ["dev", "dist"]
+    }, {
+        "output": ["test/js/cloudcredits.js"],
+        "input": [
+            "src/js/Classes/Business.ts",
+            "src/js/Classes/CopyrightSection.ts",
+            "src/js/Classes/Hosting.ts",
+            "src/js/Classes/InvolvedBusiness.ts",
+            "src/js/Classes/Tool.ts",
+            "src/js/Settings.ts",
+            "src/js/Main.ts"
+        ],
+        "builds": ["dev", "dist"]
+    }, {
+        "output": ["test/css/cloudcredits.css"],
+        "input": [
+            "src/css/cloudcredits.less"
+        ],
+        "builds": ["dev", "dist"]
+    }]
+}

@@ -1,65 +1,5 @@
-
-// Classes
-//////////////////////////////////////////
-
-class CopyrightSection {
-    
-    public constructor(_business: Business){
-        this.business = _business;
-    }
-
-    disclaimer: string = 'All Rights Reserved.';
-    business: Business;
-}
-
-class Business {
-    
-    constructor(_name: string){
-        this.name = _name;
-    }
-    
-    name: string;
-    websiteUrl?: string;
-    logoUrl?: string;
-    addressLine1?: string;
-    addressLine2?: string;
-}
-
-class InvolvedBusiness {
-    
-    business: Business;
-    involvement: string;
-    displayInSummary?: boolean = false;
-}
-
-class Tool {
-    
-    name: string;
-    developer: Business;
-
-    linkUrl?: string;
-    logoUrl?: string;    
-    displayInSummary?: boolean = false;
-}
-
-class Hosting {
-    
-    provider: Business;
-    management?: Business;
-    displayInSummary?: boolean = false;
-}
-
-// Interfaces
-//////////////////////////////////////////
-
-interface CloudCreditsSettings {
-    copyright: CopyrightSection;
-    legendSelector: string;
-    creditsSelector?: string;
-    involvedBusinesses?: InvolvedBusiness[];
-    tools?: Tool[];
-    hosting?: Hosting;
-}
+import { CloudCreditsSettings } from "./Settings";
+import { Business } from "./classes/Business";
 
 class CloudCredits {
     
@@ -73,9 +13,14 @@ class CloudCredits {
         CloudCredits._settings = this.mergeSettings(settings);
 
         if (CloudCredits._settings.creditsSelector === undefined)
-        CloudCredits._settings.creditsSelector = CloudCredits._settings.legendSelector;
+            CloudCredits._settings.creditsSelector = CloudCredits._settings.legendSelector;
     
         CloudCredits.display();
+
+        $(document).on('click', '.cloudcredits-legend', function(){
+            
+            CloudCredits.toggleDisplay();
+        });
     }
     
     private mergeSettings(_settings: CloudCreditsSettings): CloudCreditsSettings {
@@ -457,8 +402,4 @@ class CloudCredits {
 }
 
 const cloudCredits = (settings: CloudCreditsSettings) => new CloudCredits(settings);
-
-$(document).on('click', '.cloudcredits-legend', function(){
-    
-    CloudCredits.toggleDisplay();
-});
+export default cloudCredits;

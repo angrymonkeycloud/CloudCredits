@@ -1,4 +1,8 @@
 
+import cloudCredits from '../src/js/Main';
+import { Business } from '../src/js/classes/Business';
+import { CopyrightSection } from '../src/js/classes/CopyrightSection';
+
 let agencyBusiness = new Business('Angry Monkey Agency');
 agencyBusiness.websiteUrl = 'https://www.angrymonkeyagency.com/';
 agencyBusiness.logoUrl = 'https://www.angrymonkeyagency.com/favicon.ico';
