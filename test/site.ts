@@ -1,48 +1,59 @@
 
 import cloudCredits from '../src/js/Main';
-import { Business } from '../src/js/classes/Business';
-import { CopyrightSection } from '../src/js/classes/CopyrightSection';
 
-let agencyBusiness = new Business('Angry Monkey Agency');
-agencyBusiness.websiteUrl = 'https://www.angrymonkeyagency.com/';
-agencyBusiness.logoUrl = 'https://www.angrymonkeyagency.com/favicon.ico';
-
-let wordpress = new Business('WordPress.com');
-wordpress.websiteUrl = 'https://wordpress.com/';
-wordpress.logoUrl = 'https://wpcom.files.wordpress.com/2017/11/cropped-wordpress.png?w=48';
-
-cloudCredits({
-    copyright: new CopyrightSection(new Business("Angry Monkey, LLC")),
-    legendSelector: '.creditslegend',
-    involvedBusinesses:[
+cloudCredits(
+    {
+        copyright: 
         {
-            business: agencyBusiness,
-            involvement: "Designed and Developed",
-            displayInSummary: true
-        }
-    ],
-    tools:[
-        {
-            name: 'Cloud Credits',
-            developer: new Business('Angry Monkey Cloud'),
-            logoUrl: 'https://www.angrymonkeycloud.com/favicon.ico',
-            linkUrl: 'https://www.angrymonkeycloud.com/credits'
+            businessName: 'Angry Monkey, LLC'
         },
-        {
-            name: 'jQUery',
-            developer: new Business('The jQuery Foundation'),
-            logoUrl: 'https://jquery.com/favicon.ico',
-            linkUrl: 'https://jquery.com/'
-        },
-        {
-            name: 'Bootstrap',
-            developer: new Business('Bootstrap team'),
-            linkUrl: 'https://getbootstrap.com/',
-            logoUrl:'https://getbootstrap.com/docs/4.3/assets/img/favicons/favicon-32x32.png'
-        }
-    ],
-    hosting: {  
-        provider: wordpress,
-        management: agencyBusiness
+        sections: [
+            {
+                items: [
+                    {
+                        name: 'Angry Monke Agency',
+                        title: 'Designed and Developed by',
+                        link: 'https://www.angrymonkeyagency.com/',
+                        logo: 'https://www.angrymonkeyagency.com/favicon.ico',
+                        displayInSummary: true
+                    }
+                ]
+            },
+            {
+                items: [
+                    {
+                        name: 'Angry Monkey Cloud Services',
+                        logo: 'https://www.angrymonkeycloud.com/favicon.ico',
+                        link: 'https://www.angrymonkeycloud.com/credits'
+                    },
+                    {
+                        name: 'jQUery',
+                        logo: 'https://jquery.com/favicon.ico',
+                        link: 'https://jquery.com/'
+                    },
+                    {
+                        name: 'Bootstrap',
+                        logo: 'https://getbootstrap.com/',
+                        link:'https://getbootstrap.com/docs/4.3/assets/img/favicons/favicon-32x32.png'
+                    }
+                ]
+            },
+            {
+                title: 'Hosting',
+                items:[
+                    {
+                        name: 'Angry Monke Agency',
+                        title: 'Managed by',
+                        link: 'https://www.angrymonkeyagency.com/',
+                        logo: 'https://www.angrymonkeyagency.com/favicon.ico'
+                    },
+                    {
+                        name: 'WordPress.com',
+                        link: 'https://wordpress.com/',
+                        logo: 'https://wpcom.files.wordpress.com/2017/11/cropped-wordpress.png?w=48'
+                    }
+                ]
+            }
+        ]
     }
-});
+);

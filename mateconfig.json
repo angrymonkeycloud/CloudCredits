@@ -3,12 +3,12 @@
             "name": "dev",
             "css": {
                 "minify": false,
-                "sourceMap": true
+                "sourceMap": false
             },
             "js": {
                 "minify": false,
                 "sourceMap": true,
-                "declaration": true,
+                "declaration": false,
                 "webClean": true
             },
             "ts": {
@@ -54,16 +54,11 @@
         "output": ["test/js/site.js"],
         "input": [
             "test/site.ts"
-        ],
-        "builds": ["dev", "dist"]
+        ]
     }, {
         "output": ["test/js/cloudcredits.js"],
         "input": [
-            "src/js/Classes/Business.ts",
-            "src/js/Classes/CopyrightSection.ts",
-            "src/js/Classes/Hosting.ts",
-            "src/js/Classes/InvolvedBusiness.ts",
-            "src/js/Classes/Tool.ts",
+            "src/js/Classes.ts",
             "src/js/Settings.ts",
             "src/js/Main.ts"
         ],

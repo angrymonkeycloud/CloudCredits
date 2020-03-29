@@ -1,10 +1,18 @@
 import { CloudCreditsSettings } from "./Settings";
-import { Business } from "./classes/Business";
+import { CloudCreditsItem } from "./Classes";
 
-class CloudCredits {
+
+
+export class CloudCredits {
     
     // Private Variables
     private static _settings: CloudCreditsSettings;
+    private static baseClassName: string = 'cloudcredits';
+
+    private static _element: Element;
+    private static _legendElement: Element;
+    private static _summaryElement: Element;
+    private static _contentElement: Element;
 
     // Constructors
 
@@ -12,10 +20,44 @@ class CloudCredits {
         
         CloudCredits._settings = this.mergeSettings(settings);
 
-        if (CloudCredits._settings.creditsSelector === undefined)
-            CloudCredits._settings.creditsSelector = CloudCredits._settings.legendSelector;
+        CloudCredits._element = document.querySelector('.cloudcredits');
+
+        if (CloudCredits._element === null) {
+            console.log('Please create an element with class "cloudcredits" to define credits');
+            return;
+        }
+
+        CloudCredits._legendElement = document.querySelector('.cloudcredits-legend');
+
+        if (CloudCredits._legendElement === null) {
+
+            let legendContent = CloudCredits._element.innerHTML;
+            CloudCredits._element.innerHTML = '';
+            CloudCredits._legendElement = CloudCredits.createHtmlDiv(CloudCredits.createClassName('legend'), legendContent);
+            CloudCredits._element.append(CloudCredits._legendElement);
+        }
+
+        CloudCredits._summaryElement = document.querySelector('.cloudcredits-summary');
+
+        if (CloudCredits._summaryElement === null) {
+
+            CloudCredits._summaryElement = CloudCredits.createHtmlDiv(CloudCredits.createClassName('summary'));
+            CloudCredits._element.append(CloudCredits._summaryElement);
+        }
+
+        CloudCredits._contentElement = document.querySelector('.cloudcredits-content');
+
+        if (CloudCredits._contentElement === null) {
+
+            CloudCredits._contentElement = CloudCredits.createHtmlDiv(CloudCredits.createClassName('content'));
+            CloudCredits._element.append(CloudCredits._contentElement);
+        }
     
-        CloudCredits.display();
+        // Summary
+        CloudCredits.fillInLegend();
+        
+        // Credits
+        CloudCredits.fillInSummary()
 
         $(document).on('click', '.cloudcredits-legend', function(){
             
@@ -23,25 +65,96 @@ class CloudCredits {
         });
     }
     
-    private mergeSettings(_settings: CloudCreditsSettings): CloudCreditsSettings {
-        const settings : CloudCreditsSettings = {
-            legendSelector: undefined,
-            creditsSelector: undefined,
-            copyright: undefined,
-            involvedBusinesses: [],
-            tools: [],
-            hosting: undefined
-        };
-
-        for (const attrname in _settings) 
-            settings[attrname] = _settings[attrname];
+    private static fillInLegend() : void {
         
-        return settings;
+        let legendContent = this._legendElement.innerHTML;
+        
+        if (legendContent === '')
+            legendContent = '© ' + this._settings.copyright.businessName;
+
+        this._legendElement.innerHTML = legendContent;
+    }
+    
+    private static fillInSummary() : void {
+        
+        for(const section of this._settings.sections)
+            for(const item of section.items)
+            {
+                if (!item.displayInSummary)
+                    continue;
+                
+                let summaryItem = this.createHtmlDiv(CloudCredits.createClassName('summary-item'));
+
+                if (item.title !== undefined)
+                    summaryItem.append(this.createHtmlParagraph(undefined, item.title + '\xa0'));
+                
+                summaryItem.append(this.generateItemSummaryElement(item));
+                
+                summaryItem.append(this.createHtmlParagraph(undefined, '\xa0'));
+                
+                CloudCredits._summaryElement.append(summaryItem);
+            }
+    }
+    
+    private static fillInContent() : void {
+        
+        // Copyright
+        
+        this._contentElement.append(this.generateCreditsCopyright());
+        
+        // Sections
+        
+        for (const section of this._settings.sections){
+
+            const sectionElement = this.createHtmlDiv(this.createClassName('section'));
+            this._contentElement.append(sectionElement);
+
+            if (section.title !== undefined)
+                sectionElement.append(this.createHtmlDiv(this.createClassName('section-title'), section.title));
+
+            const itemsElement = this.createHtmlDiv(this.createClassName('items'));
+                sectionElement.append(itemsElement);
+            
+            for (const item of section.items)
+                itemsElement.append(this.generateItemElement(item));
+        }
+    }
+    
+    static toggleDisplay() : void {
+        
+        const expandedClass = '_expanded';
+        const isExpanded = this._element.classList.contains(expandedClass);
+            
+        this.scrollTo(document.querySelector('.cloudcredits-legend'), 200);
+
+        if (!isExpanded) {
+
+            this._summaryElement.innerHTML = '';
+            this.fillInContent();
+            
+            this._element.classList.add(expandedClass)
+
+        } else {
+            
+            this._contentElement.innerHTML = '';
+            this.fillInSummary();
+            
+            this._element.classList.remove(expandedClass)  
+        }
+    }
+    
+    private mergeSettings(_settings: CloudCreditsSettings): CloudCreditsSettings {
+
+        if (_settings.copyright === undefined)
+            _settings.copyright = { businessName: '{Business Name}'};
+
+        if (_settings.copyright.disclaimer === undefined)
+            _settings.copyright.disclaimer = 'All Rights Reserved.';
+        
+        return _settings;
     }
     
     // Public Variables
-    
-    private static baseClassName: string = 'cloudcredits';
     
     private static generateCopyrightSection(): HTMLElement {
         
@@ -56,121 +169,14 @@ class CloudCredits {
         main.appendChild(business);
         
         // Business Name
-        if (this._settings.copyright.business.name !== undefined)
-        business.append(this.createHtmlDiv(this.createClassName('copyright', 'business', 'name'), this._settings.copyright.business.name));
-        
-        // Business Address 1
-        if (this._settings.copyright.business.addressLine1 !== undefined)
-        business.append(this.createHtmlDiv(this.createClassName('copyright', 'business', 'address1'), this._settings.copyright.business.addressLine1));
-        
-        // Business Address 2
-        if (this._settings.copyright.business.addressLine2 !== undefined)
-        business.append(this.createHtmlDiv(this.createClassName('copyright', 'business', 'address2'), this._settings.copyright.business.addressLine2));
+        if (this._settings.copyright.businessName !== undefined)
+            business.append(this.createHtmlDiv(this.createClassName('copyright', 'business', 'name'), this._settings.copyright.businessName));
         
         // Business Website Url
-        if (this._settings.copyright.business.websiteUrl !== undefined)
-        business.append(this.createHtmlDiv(this.createClassName('copyright', 'business', 'websiteUrl'), this._settings.copyright.business.websiteUrl));
+        if (this._settings.copyright.businessWebsite !== undefined)
+            business.append(this.createHtmlDiv(this.createClassName('copyright', 'business', 'websiteUrl'), this._settings.copyright.businessWebsite));
         
         return main;
-    }
-    
-    private static fillInLegend() : void {
-        
-        let content = $(this._settings.legendSelector).html('');
-        
-        let legendContent : string;
-        
-        if ($(this._settings.legendSelector).data('legend')){
-            legendContent = $(this._settings.legendSelector).data('legend');
-            $(this._settings.legendSelector).removeAttr('data-legend');
-        }
-        else legendContent = '© ' + this._settings.copyright.business.name;
-        
-        content.append(this.createHtmlDiv(this.createClassName('legendcontainer'), this.createHtmlSpan(this.createClassName('legend'), legendContent)));
-    }
-    
-    private static createCreditsContainer() : HTMLElement{
-        
-        let content = $(this._settings.creditsSelector);
-        let containerClassName = this.createClassName('creditscontainer');
-        
-        let container = $('.' + containerClassName);
-        
-        if (container.length > 0)
-        return container[0];
-        
-        content.append(this.createHtmlDiv(containerClassName));
-        container =  $('.' + containerClassName);
-        
-        return container[0];
-    }
-    
-    private static fillInCreditsSummary() : void{
-        
-        let container = $(this.createCreditsContainer());
-        let summarySelectorClassName = this.createClassName('creditssummary');
-        
-        if (!container.hasClass(summarySelectorClassName))
-        container.addClass(summarySelectorClassName);
-        
-        this._settings.involvedBusinesses.forEach((business) =>{
-            
-            if (!business.displayInSummary)
-            return;
-            
-            let section = this.createHtmlDiv(undefined);
-            
-            section.append(this.createHtmlParagraph(undefined,  business.involvement + ' by\xa0'));
-            
-            section.append(this.generateBusinessInfoTextHtml(business.business));
-            
-            section.append(this.createHtmlParagraph(undefined, '\xa0'));
-            
-            container.append(section);
-        });
-    }
-    
-    private static fillInCredits() : void{
-        
-        let container = $(this.createCreditsContainer());
-        
-        let creditsSelectorClassName = this.createClassName('credits');
-        
-        if (!container.hasClass(creditsSelectorClassName))
-        container.addClass(creditsSelectorClassName);
-        
-        // Copyright
-        
-        container.append(this.generateCreditsCopyright());
-        
-        // Involved
-        
-        if (this._settings.involvedBusinesses.length > 0){
-            
-            container.append(this.createHtmlDiv(this.createClassName('title'), ''));
-            container.append(this.generateInvolvedBusinesses());
-        }
-        
-        // Tools
-        
-        if (this._settings.tools.length > 0){
-            
-            container.append(this.createHtmlDiv(this.createClassName('title'), ''));
-            container.append(this.generateTools());
-        }
-        
-        // Hosting
-        
-        if (this._settings.hosting !== undefined){
-            
-            container.append(this.createHtmlDiv(this.createClassName('title'), 'Hosting'));
-            
-            let subTitle = this.createHtmlDiv(this.createClassName('SubTitle'), this.createHtmlSpan(undefined, 'managed by '));
-            subTitle.append(this.generateBusinessInfoTextHtml(this._settings.hosting.management));
-            container.append(subTitle);
-            
-            container.append(this.generateHosting());
-        }
     }
     
     private static generateCreditsCopyright(): HTMLElement{
@@ -178,68 +184,37 @@ class CloudCredits {
         return this.createHtmlDiv(this.createClassName('credits', 'copyright', 'disclaimer'), this._settings.copyright.disclaimer);
     }
     
-    private static generateBusinessInfoTextHtml(business: Business): HTMLElement{
+    private static generateItemSummaryElement(item:CloudCreditsItem): HTMLElement{
         
-        if (business.websiteUrl !== undefined)
-        return this.createHtmlAnchor(undefined, business.websiteUrl, business.name);
+        if (item.link !== undefined)
+            return this.createHtmlAnchor(undefined, item.link, item.name);
         
-        return this.createHtmlParagraph(undefined, business.name);
+        return this.createHtmlParagraph(undefined, item.name);
     }
     
-    private static generateInvolvedBusinesses(): HTMLElement{
-        
-        let businessesContainer = this.createHtmlDiv(this.createClassName('credits', 'involved'));
-        
-        this._settings.involvedBusinesses.forEach((business) =>{
-            businessesContainer.append(this.generateBusinessHtml(business.business, business.involvement + ' by'));
-        });
-        
-        return businessesContainer;
-    }
-    
-    private static generateTools(): HTMLElement{
-        
-        let businessesContainer = this.createHtmlDiv(this.createClassName('credits', 'tools'));
-        
-        this._settings.tools.forEach((tool) =>{
-            let businessDiv = this.createHtmlDiv(this.createClassName('toolinfo'));
-            
-            if (tool.logoUrl !== undefined)
-            businessDiv.append(this.createHtmlDiv(undefined, this.createHtmlImageLink(undefined, tool.logoUrl, tool.linkUrl)));
-            
-            businessDiv.append(this.createHtmlAnchor(undefined, tool.linkUrl, tool.name));
-            
-            businessDiv.append(this.createHtmlParagraph(undefined, tool.developer.name));
-            
-            businessesContainer.append(businessDiv);
-        });
-        
-        return businessesContainer;
-    }
-    
-    private static generateHosting(): HTMLElement{
-        
-        let businessesContainer = this.createHtmlDiv(this.createClassName('credits', 'hosting'));
-        
-        businessesContainer.append(this.generateBusinessHtml(this._settings.hosting.provider));
-        
-        return businessesContainer;
-    }
-    
-    private static generateBusinessHtml(business : Business, innerDescription? : string):HTMLElement
+    private static generateItemElement(item: CloudCreditsItem):HTMLElement
     {
+        let itemElement: HTMLElement = this.createHtmlDiv(this.createClassName('item'));
+        let contentLement = itemElement;
+
+        if (item.title === undefined)
+            item.title = '\xa0';
+
+        contentLement.append(this.createHtmlDiv(this.createClassName('item-title'), item.title));
         
-        let businessDiv = this.createHtmlDiv(this.createClassName('businessinfo'));
+        if (item.link !== undefined)
+        {
+            const linkElement = this.createHtmlAnchor(this.createClassName('item'), item.link);
+            contentLement.append(linkElement);
+            contentLement = linkElement;
+        }
+
+        if (item.logo !== undefined)
+        contentLement.append(this.createHtmlImage(this.createClassName('item-logo'), item.logo));
         
-        if (business.logoUrl !== undefined)
-        businessDiv.append(this.createHtmlDiv(undefined, this.createHtmlImageLink(undefined, business.logoUrl, business.websiteUrl)));
+        contentLement.append(this.createHtmlParagraph(this.createClassName('item-name'), item.name));
         
-        if (innerDescription !== undefined)
-        businessDiv.append(this.createHtmlParagraph(undefined,  '\xa0' + innerDescription + '\xa0'));
-        
-        businessDiv.append(this.generateBusinessInfoTextHtml(business));
-        
-        return businessDiv;
+        return itemElement;
     }
     
     // Create Methods
@@ -319,23 +294,6 @@ class CloudCredits {
         return imageElement;
     }
     
-    private static createHtmlImageLink(className: string, source: string, link?: string): HTMLElement{
-        
-        if (link !== undefined)
-        return this.createHtmlAnchor(className, link, this.createHtmlImage(undefined, source));
-        
-        return this.createHtmlImage(undefined, source);
-    }
-    
-    private static display() : void {
-        
-        // Summary
-        this.fillInLegend();
-        
-        // Credits
-        this.fillInCreditsSummary()
-    }
-    
     // Public Methods
 
     private static scrollTo(scrollToElement: Element, scrollDuration: number): void {
@@ -374,30 +332,6 @@ class CloudCredits {
         }
     
         window.requestAnimationFrame(step);
-    }
-    
-    static toggleDisplay() : void {
-        
-        let credits = $('.cloudcredits-creditscontainer');
-        credits.html('');
-        
-        if (credits.hasClass('cloudcredits-creditssummary'))
-        {
-            
-            this.fillInCredits();
-            credits.removeClass('cloudcredits-creditssummary');
-            
-            $('.cloudcredits-legend').addClass("Extended");
-            
-            this.scrollTo(document.querySelector('.cloudcredits-legend'), 200);
-
-        }else{
-            
-            this.fillInCreditsSummary();
-            credits.removeClass('CloudCredits-Credits');     
-            
-            $('.cloudcredits-legend').removeClass("Extended");
-        }
     }
 }
 

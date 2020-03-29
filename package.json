@@ -1,6 +1,6 @@
 {
     "name": "cloudcredit",
-    "version": "1.1.1",
+    "version": "2.0.0",
     "description": "JavaScript library for displaying copyright, design and development, libraries, and hosting credit.",
     "main": "./dist/cloudcredit.js",
     "scripts": {
