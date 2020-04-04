@@ -1,31 +1,25 @@
 var exports = {};
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var CloudCreditsItem = (function () {
     function CloudCreditsItem() {
         this.displayInSummary = false;
     }
     return CloudCreditsItem;
 }());
-exports.CloudCreditsItem = CloudCreditsItem;
+{ CloudCreditsItem };
 var CloudCreditsSection = (function () {
     function CloudCreditsSection() {
     }
     return CloudCreditsSection;
 }());
-exports.CloudCreditsSection = CloudCreditsSection;
+{ CloudCreditsSection };
 var CopyrightSection = (function () {
     function CopyrightSection() {
     }
     return CopyrightSection;
 }());
-exports.CopyrightSection = CopyrightSection;
+{ CopyrightSection };
 
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var CloudCredits = (function () {
     function CloudCredits(settings) {
         CloudCredits._settings = this.mergeSettings(settings);
@@ -224,7 +218,7 @@ var CloudCredits = (function () {
     CloudCredits.baseClassName = 'cloudcredits';
     return CloudCredits;
 }());
-exports.CloudCredits = CloudCredits;
+{ CloudCredits };
 var cloudCredits = function (settings) { return new CloudCredits(settings); };
-exports.default = cloudCredits;
+cloudCredits;
 

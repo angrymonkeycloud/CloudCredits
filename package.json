@@ -6,11 +6,10 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "author": "Angry Monkey",
+    "author": "Angry Monkey Cloud",
     "license": "ISC",
     "dependencies": {},
     "devDependencies": {
-        "jquery": "^3.4.1",
-        "typescript": "^3.5.3"
+        "@types/jquery": "3.3.1"
     }
 }
