@@ -30,22 +30,22 @@ jQuery 2.x or 3.x: [jQuery CDN](https://code.jquery.com/), [download jQuery](htt
 
 ## Cloud Credits Files
 ### Download
-Cloud Credits JavaScript files: [Uncompressed](https://cdn.amcapi.com/credits/2.0.0/js/cloudcredits.js), [Compressed](https://cdn.amcapi.com/credits/2.0.0/js/cloudcredits.min.js).
+Cloud Credits JavaScript files: [Uncompressed](https://cdn.amcapi.com/credits/2.0.1/js/cloudcredits.js), [Compressed](https://cdn.amcapi.com/credits/2.0.1/js/cloudcredits.min.js).
 
-Cloud Credits CSS files: [Uncompressed](https://cdn.amcapi.com/credits/2.0.0/css/cloudcredits.css), [Compressed](https://cdn.amcapi.com/credits/2.0.0/css/cloudcredits.min.css).
+Cloud Credits CSS files: [Uncompressed](https://cdn.amcapi.com/credits/2.0.1/css/cloudcredits.css), [Compressed](https://cdn.amcapi.com/credits/2.0.1/css/cloudcredits.min.css).
  
 ### CDN
 
 Cloud Credits JavaScript Compressed
 
 ```html
-<script src="https://cdn.amcapi.com/credits/2.0.0/js/cloudcredits.min.js" crossorigin="anonymous"></script> 
+<script src="https://cdn.amcapi.com/credits/2.0.1/js/cloudcredits.min.js" crossorigin="anonymous"></script> 
 ```
 
 Cloud Credits CSS Compressed
 
 ```html
-<link href="https://cdn.amcapi.com/credits/2.0.0/css/cloudcredits.min.css" rel="stylesheet" />
+<link href="https://cdn.amcapi.com/credits/2.0.1/css/cloudcredits.min.css" rel="stylesheet" />
 ```
 
 ## Sample
@@ -100,13 +100,8 @@ cloudCredits(
                 title: 'Hosting',
                 items:[
                     {
-                        name: 'Angry Monke Agency',
-                        title: 'Managed by',
-                        link: 'https://www.angrymonkeyagency.com/',
-                        logo: 'https://www.angrymonkeyagency.com/favicon.ico'
-                    },
-                    {
                         name: 'WordPress.com',
+                        description: 'managed by Angry Monkey Agency',
                         link: 'https://wordpress.com/',
                         logo: 'https://wpcom.files.wordpress.com/2017/11/cropped-wordpress.png?w=48'
                     }

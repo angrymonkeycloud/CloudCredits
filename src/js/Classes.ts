@@ -2,6 +2,7 @@ export class CloudCreditsItem{
 
     name: string;
     title?: string;
+    description?: string;
     link?: string;
     logo?: string;
     displayInSummary?: boolean = false;

@@ -195,24 +195,27 @@ export class CloudCredits {
     private static generateItemElement(item: CloudCreditsItem):HTMLElement
     {
         let itemElement: HTMLElement = this.createHtmlDiv(this.createClassName('item'));
-        let contentLement = itemElement;
+        let contentElement = itemElement;
 
         if (item.title === undefined)
             item.title = '\xa0';
 
-        contentLement.append(this.createHtmlDiv(this.createClassName('item-title'), item.title));
+        contentElement.append(this.createHtmlDiv(this.createClassName('item-title'), item.title));
         
         if (item.link !== undefined)
         {
             const linkElement = this.createHtmlAnchor(this.createClassName('item'), item.link);
-            contentLement.append(linkElement);
-            contentLement = linkElement;
+            contentElement.append(linkElement);
+            contentElement = linkElement;
         }
 
         if (item.logo !== undefined)
-        contentLement.append(this.createHtmlImage(this.createClassName('item-logo'), item.logo));
+            contentElement.append(this.createHtmlImage(this.createClassName('item-logo'), item.logo));
         
-        contentLement.append(this.createHtmlParagraph(this.createClassName('item-name'), item.name));
+        contentElement.append(this.createHtmlParagraph(this.createClassName('item-name'), item.name));
+
+        if (item.description !== undefined)
+            itemElement.append(this.createHtmlParagraph(this.createClassName('item-description'), item.description));
         
         return itemElement;
     }
